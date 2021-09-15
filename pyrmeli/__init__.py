@@ -3,9 +3,6 @@ pyrmeli
 @RMeli scripts
 """
 
-# Add imports here
-from .pyrmeli import *
-
 # Handle versioneer
 from ._version import get_versions
 versions = get_versions()

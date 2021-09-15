@@ -1,6 +1,5 @@
 import pyrmeli
 import sys
 
-def test_pyrmeli_imported():
-    """Sample test, will always pass so long as import statement worked"""
+def test_imported():
     assert "pyrmeli" in sys.modules
