@@ -1,9 +1,6 @@
 name: CI
 
 on:
-  # GitHub has started calling new repo's first branch "main" https://github.com/github/renaming
-  # Existing codes likely still have "master" as the primary branch
-  # Both are tracked here to keep legacy and new codes working
   push:
     branches:
       - "master"
@@ -13,9 +10,6 @@ on:
       - "master"
       - "main"
   schedule:
-    # Nightly tests run on master by default:
-    #   Scheduled workflows run on the latest commit on the default or base branch.
-    #   (from https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule)
     - cron: "0 0 * * *"
 
 jobs:
@@ -38,11 +32,10 @@ jobs:
         ulimit -a
 
 
-    # More info on options: https://github.com/conda-incubator/setup-miniconda
     - uses: conda-incubator/setup-miniconda@v2
       with:
         python-version: ${{ matrix.python-version }}
-        environment-file: devtools/conda-envs/test_env.yaml
+        environment-file: devtools/conda/test.yaml
 
         channels: conda-forge,defaults
 
@@ -66,7 +59,7 @@ jobs:
       shell: bash -l {0}
 
       run: |
-        pytest -v --cov=pyrmeli --cov-report=xml --color=yes pyrmeli/tests/
+        pytest -v --cov=pyrmeli --cov-report=xml --color=yes tests/
 
     - name: CodeCov
       uses: codecov/codecov-action@v1
