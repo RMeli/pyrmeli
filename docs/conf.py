@@ -20,7 +20,6 @@ sys.path.insert(0, os.path.abspath(".."))
 
 import pyrmeli
 
-
 # -- Project information -----------------------------------------------------
 
 project = "pyrmeli"

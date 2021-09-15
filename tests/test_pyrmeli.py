@@ -1,5 +1,6 @@
-import pyrmeli
 import sys
+
+import pyrmeli
 
 
 def test_imported():
