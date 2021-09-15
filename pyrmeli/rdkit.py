@@ -1,3 +1,7 @@
+"""
+RDKit tools.
+"""
+
 from typing import List, Union
 
 from rdkit import Chem
@@ -19,12 +23,13 @@ def generate_conformers(mol, numConfs: int, randomSeed: int = 42):
 
     Returns
     -------
-    RDKit molecule with added hydrogen and conformers and conformers' IDs
+    Union[ROMol, List[int]]
+        RDKit molecule with added hydrogen and conformers and conformers' IDs
 
     Notes
     -----
-    The actual number of generated conformers might differ from :code:`numConfs` because
-    pruning is performed in order to return dissimilar conformers.
+    The actual number of generated conformers might differ from :code:`numConfs`
+    because pruning is performed in order to return dissimilar conformers.
     """
     # Define ETKDG parameter set
     ps = rdDistGeom.ETKDGv3()
@@ -57,9 +62,9 @@ def mol_from_conformers(mol, confIds: Union[int, List[int]]):
 
     Notes
     -----
-    Clean solution provided by @ptosco on _`RDKit Discussions #4520`.
+    Clean solution provided by @ptosco on `RDKit Discussions #4520`_.
 
-    _`RDKit Discussions #4520` : https://github.com/rdkit/rdkit/discussions/4520
+    .. _`RDKit Discussions #4520`: https://github.com/rdkit/rdkit/discussions/4520
     """
     if isinstance(confIds, int):
         confIds = [confIds]

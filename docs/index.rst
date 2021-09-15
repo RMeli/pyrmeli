@@ -11,8 +11,8 @@ Welcome to pyrmeli's documentation!
    :caption: Contents:
 
    getting_started
-   api
-
+   api-summary
+   api-documentation
 
 
 Indices and tables

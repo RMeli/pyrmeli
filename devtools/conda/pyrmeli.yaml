@@ -14,7 +14,7 @@ dependencies:
 
   - matplotlib
   - seaborn
-  
+
   - rdkit
   - openbabel
 
@@ -23,6 +23,9 @@ dependencies:
   - mypy
   - isort
   - pre-commit
+
+  - sphinx
+  - sphinx_rtd_theme
 
   - pytest
   - pytest-cov
