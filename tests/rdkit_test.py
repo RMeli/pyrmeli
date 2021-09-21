@@ -1,5 +1,7 @@
 import pytest
 from rdkit import Chem
+from rdkit.Chem import Descriptors
+
 
 from pyrmeli import rdkit as rmrdkit
 
@@ -48,3 +50,25 @@ def test_mol_from_conformers_one(mol, numConfs):
 
     assert scmol.GetNumHeavyAtoms() == cmol.GetNumHeavyAtoms()
     assert scmol.GetNumConformers() == 1
+
+
+@pytest.mark.parametrize(
+    "desc", [[d[0] for d in Descriptors.descList], ["qed", "MolWt", "HeavyAtomCount"]]
+)
+@pytest.mark.parametrize("smi", ["CCC", "CCCC"])
+def test_smi2props(smi, desc):
+    props = rmrdkit.smi2props(smi, desc)
+
+    assert len(props) == len(desc)
+    assert props["HeavyAtomCount"] == len(smi)
+
+
+@pytest.mark.parametrize("smi", ["CCC", "CCCC"])
+def test_smi2props_wrong_properties(smi):
+    with pytest.raises(RuntimeError):
+        rmrdkit.smi2props(smi, properties=["X", "Y"])
+
+
+def test_smi2props_wrong_smiles():
+    with pytest.raises(ValueError):
+        rmrdkit.smi2props("ccc", properties=["MolWt", "HeavyAtomCount"])

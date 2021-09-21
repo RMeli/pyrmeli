@@ -2,10 +2,11 @@
 RDKit tools.
 """
 
-from typing import List, Union
+from typing import List, Union, Optional
 
 from rdkit import Chem
 from rdkit.Chem import rdDistGeom
+from rdkit.Chem import Descriptors
 
 
 def generate_conformers(mol, numConfs: int, randomSeed: int = 42):
@@ -77,3 +78,45 @@ def mol_from_conformers(mol, confIds: Union[int, List[int]]):
         cmol.AddConformer(mol.GetConformer(confId), assignId=True)
 
     return cmol
+
+
+def smi2props(smi: str, properties: Optional[List[str]] = None):
+    """
+    Compute properties from SMILES.
+
+    Parameters
+    ----------
+    smi: str
+        SMILES
+    props: List[str]
+        List of properties to be computed
+
+    Returns
+    -------
+    dict
+        Dictionary of properties
+
+    Notes
+    -----
+    RDKit properties are case sensitive.
+
+    Some code and ideas borrowed from `Calculate RDKit descriptors with Dask`_
+
+    .. _`Calculate RDKit descriptors with Dask`: https://gist.github.com/PatWalters/beb437da364a2c4bf8de724a2039b903
+    """
+    mol = Chem.MolFromSmiles(smi)
+
+    res = {}
+    if mol:
+        for name, prop in Descriptors.descList:
+            if properties is None or name in properties:
+                res[name] = prop(mol)
+
+        if properties is not None and len(res) != len(properties):
+            raise RuntimeError(
+                f"Not all required properties can be computed: {properties}"
+            )
+    else:
+        raise ValueError(f"Molecule can be created from SMILES: {smi}")
+
+    return res
