@@ -9,7 +9,7 @@ from rdkit.Chem import rdDistGeom
 from rdkit.Chem import Descriptors
 
 
-def generate_conformers(mol, numConfs: int, randomSeed: int = 42):
+def generate_conformers(mol, numConfs: int, randomSeed: int = 42, numThreads: int = 0):
     """
     Generate conformers using ETKDG.
 
@@ -21,6 +21,8 @@ def generate_conformers(mol, numConfs: int, randomSeed: int = 42):
         Number of conformers to be generated
     randomSeed: int
         Seed for the random number generator
+    numThreads: int
+        Number of threads to use for conformer generation
 
     Returns
     -------
@@ -35,6 +37,7 @@ def generate_conformers(mol, numConfs: int, randomSeed: int = 42):
     # Define ETKDG parameter set
     ps = rdDistGeom.ETKDGv3()
     ps.randomSeed = randomSeed
+    ps.numThreads = numThreads
 
     # Add hydrogens
     molh = Chem.AddHs(mol)
