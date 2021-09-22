@@ -115,6 +115,8 @@ def smi2props(smi: str, properties: Optional[List[str]] = None):
             if properties is None or name in properties:
                 res[name] = prop(mol)
 
+            # TODO: Add synthetic accessibility score and natural product-likeness score
+
         if properties is not None and len(res) != len(properties):
             raise RuntimeError(
                 f"Not all required properties can be computed: {properties}"
